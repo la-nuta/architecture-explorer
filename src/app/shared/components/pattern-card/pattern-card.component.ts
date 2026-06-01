@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  Output,
+  input,
+  output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ArchitecturePattern } from '../../../core/models/architecture-pattern.model';
@@ -14,27 +13,26 @@ import { ArchitecturePattern } from '../../../core/models/architecture-pattern.m
   imports: [RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="card" [class.card--favorite]="isFavorite">
+    <div class="card" [class.card--favorite]="isFavorite()">
       <a
-        [routerLink]="['/architectures', pattern.slug]"
-        class="card-body"
-        style="text-decoration: none; display: block;"
+        [routerLink]="['/architectures', pattern().slug]"
+        class="card-body card-link"
       >
         <div class="card-header">
-          <h3 class="card-title">{{ pattern.title }}</h3>
+          <h3 class="card-title">{{ pattern().title }}</h3>
           <span
             class="difficulty-badge"
-            [style.background]="difficultyBg(pattern.difficulty)"
-            [style.color]="difficultyColor(pattern.difficulty)"
+            [style.background]="difficultyBg(pattern().difficulty)"
+            [style.color]="difficultyColor(pattern().difficulty)"
           >
-            {{ pattern.difficulty }}
+            {{ pattern().difficulty }}
           </span>
         </div>
 
-        <p class="card-description">{{ pattern.shortDescription }}</p>
+        <p class="card-description">{{ pattern().shortDescription }}</p>
 
         <div class="tags">
-          @for (tag of pattern.tags.slice(0, 3); track tag) {
+          @for (tag of pattern().tags.slice(0, 3); track tag) {
             <span class="tag">{{ tag }}</span>
           }
         </div>
@@ -43,11 +41,11 @@ import { ArchitecturePattern } from '../../../core/models/architecture-pattern.m
       <div class="card-footer">
         <button
           class="favorite-btn"
-          [class.favorite-btn--active]="isFavorite"
+          [class.favorite-btn--active]="isFavorite()"
           (click)="onFavoriteToggle($event)"
           type="button"
         >
-          {{ isFavorite ? '♥' : '♡' }} Favorite
+          {{ isFavorite() ? '♥' : '♡' }} Favorite
         </button>
       </div>
     </div>
@@ -76,6 +74,11 @@ import { ArchitecturePattern } from '../../../core/models/architecture-pattern.m
       padding: 1.25rem;
       flex: 1;
       cursor: pointer;
+    }
+
+    .card-link {
+      text-decoration: none;
+      display: block;
     }
 
     .card-body:hover .card-title {
@@ -177,9 +180,9 @@ import { ArchitecturePattern } from '../../../core/models/architecture-pattern.m
   `],
 })
 export class PatternCardComponent {
-  @Input() pattern!: ArchitecturePattern;
-  @Input() isFavorite = false;
-  @Output() favoriteToggle = new EventEmitter<string>();
+  readonly pattern = input.required<ArchitecturePattern>();
+  readonly isFavorite = input(false);
+  readonly favoriteToggle = output<string>();
 
   difficultyBg(difficulty: ArchitecturePattern['difficulty']): string {
     switch (difficulty) {
@@ -200,6 +203,6 @@ export class PatternCardComponent {
   onFavoriteToggle(event: MouseEvent): void {
     event.preventDefault();
     event.stopPropagation();
-    this.favoriteToggle.emit(this.pattern.id);
+    this.favoriteToggle.emit(this.pattern().id);
   }
 }
