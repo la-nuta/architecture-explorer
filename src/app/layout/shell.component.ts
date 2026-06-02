@@ -7,18 +7,6 @@ import { NavComponent } from './nav.component';
   standalone: true,
   imports: [RouterOutlet, NavComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <div style="
-      background: #0d1117;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    ">
-      <app-nav />
-      <main style="flex: 1; display: flex; flex-direction: column;">
-        <router-outlet />
-      </main>
-    </div>
-  `,
+  templateUrl: './shell.component.html',
 })
 export class ShellComponent {}

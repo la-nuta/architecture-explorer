@@ -1,0 +1,14 @@
+.nav-link:hover {
+  color: #e2e8f0 !important;
+  background: #21262d !important;
+}
+
+:host ::ng-deep .nav-link-active {
+  color: #3b82f6 !important;
+  background: rgba(59, 130, 246, 0.1) !important;
+}
+
+:global(.nav-link-active) {
+  color: #3b82f6 !important;
+  background: rgba(59, 130, 246, 0.1) !important;
+}

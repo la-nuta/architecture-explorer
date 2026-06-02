@@ -1,0 +1,63 @@
+<!-- Hero Section -->
+<section class="hero">
+  <!-- Background accent -->
+  <div class="hero-accent"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">// Software Architecture Patterns</div>
+
+    <h1 class="hero-title">
+      Architecture
+      <span class="hero-title-accent">Explorer</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      Learn and compare software architecture patterns
+    </p>
+
+    <div class="hero-actions">
+      <a routerLink="/architectures" class="btn-primary">
+        Browse All →
+      </a>
+
+      <a routerLink="/quiz" class="btn-secondary">
+        Take Quiz
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Row -->
+<section class="stats-section">
+  <div class="stats-container">
+    @for (stat of stats(); track stat.label) {
+      <div class="stat-item">
+        <div class="stat-value">{{ stat.value }}</div>
+        <div class="stat-label">{{ stat.label }}</div>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- Featured Patterns Section -->
+<section class="featured-section">
+  <div class="featured-header">
+    <h2 class="featured-title">Featured Patterns</h2>
+    <p class="featured-subtitle">
+      Popular patterns to get you started
+    </p>
+  </div>
+
+  <div class="patterns-grid">
+    @for (pattern of featured(); track pattern.id) {
+      <app-pattern-card [pattern]="pattern" [isFavorite]="false" />
+    }
+  </div>
+
+  <!-- Browse All CTA -->
+  <div class="browse-cta">
+    <a routerLink="/architectures" class="btn-browse">
+      Browse All Patterns →
+    </a>
+  </div>
+</section>

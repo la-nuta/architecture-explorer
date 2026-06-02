@@ -1,0 +1,74 @@
+<div class="catalog-root">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="container">
+      <h1 class="page-title">Architecture Patterns</h1>
+      <p class="page-subtitle">
+        {{ allPatterns().length }} patterns available
+      </p>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-bar">
+    <div class="filters-container">
+      <!-- Search -->
+      <div class="search-wrapper">
+        <span class="search-icon">⌕</span>
+        <input
+          type="text"
+          placeholder="Search patterns..."
+          [ngModel]="searchQuery()"
+          (ngModelChange)="searchQuery.set($event)"
+          class="search-input"
+        />
+      </div>
+
+      <!-- Difficulty Filter -->
+      <select
+        [ngModel]="difficultyFilter()"
+        (ngModelChange)="difficultyFilter.set($event)"
+        class="select-filter"
+      >
+        @for (opt of difficultyOptions; track opt) {
+          <option [value]="opt">{{ opt }}</option>
+        }
+      </select>
+
+      <!-- Result count -->
+      @if (searchQuery() || difficultyFilter() !== 'All') {
+        @let count = filteredPatterns().length;
+        <span class="result-count">
+          {{ count }} result{{ count === 1 ? '' : 's' }}
+        </span>
+      }
+    </div>
+  </div>
+
+  <!-- Pattern Grid -->
+  <div class="patterns-area">
+    @if (filteredPatterns().length > 0) {
+      <div class="patterns-grid">
+        @for (pattern of filteredPatterns(); track pattern.id) {
+          <app-pattern-card [pattern]="pattern" [isFavorite]="false" />
+        }
+      </div>
+    } @else {
+      <!-- Empty State -->
+      <div class="empty-state">
+        <div class="empty-icon">⊘</div>
+        <h3 class="empty-title">No patterns match your search</h3>
+        <p class="empty-message">
+          Try adjusting your search terms or difficulty filter.
+        </p>
+        <button
+          type="button"
+          (click)="clearFilters()"
+          class="clear-btn"
+        >
+          Clear filters
+        </button>
+      </div>
+    }
+  </div>
+</div>
