@@ -61,7 +61,11 @@
     @if (filteredPatterns().length > 0) {
       <div class="patterns-grid">
         @for (pattern of filteredPatterns(); track pattern.id) {
-          <app-pattern-card [pattern]="pattern" [isFavorite]="false" />
+          <app-pattern-card
+              [pattern]="pattern"
+              [isFavorite]="favoritesService.isFavorite(pattern.id)"
+              (favoriteToggle)="favoritesService.toggle($event)"
+            />
         }
       </div>
     } @else {

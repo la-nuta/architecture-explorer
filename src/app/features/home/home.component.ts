@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ArchitectureService } from '../../core/services/architecture.service';
+import { FavoritesService } from '../../core/services/favorites.service';
 import { PatternCardComponent } from '../../shared/components/pattern-card/pattern-card.component';
 
 @Component({
@@ -13,6 +14,7 @@ import { PatternCardComponent } from '../../shared/components/pattern-card/patte
 })
 export class HomeComponent {
   private readonly architectureService = inject(ArchitectureService);
+  protected readonly favoritesService = inject(FavoritesService);
 
   readonly featured = this.architectureService.featured;
 

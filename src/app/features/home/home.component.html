@@ -50,7 +50,11 @@
 
   <div class="patterns-grid">
     @for (pattern of featured(); track pattern.id) {
-      <app-pattern-card [pattern]="pattern" [isFavorite]="false" />
+      <app-pattern-card
+        [pattern]="pattern"
+        [isFavorite]="favoritesService.isFavorite(pattern.id)"
+        (favoriteToggle)="favoritesService.toggle($event)"
+      />
     }
   </div>
 

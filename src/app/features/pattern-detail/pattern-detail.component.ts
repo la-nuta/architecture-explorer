@@ -4,14 +4,13 @@ import {
   computed,
   DestroyRef,
   inject,
-  input,
   OnInit,
-  output,
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ArchitectureService } from '../../core/services/architecture.service';
+import { FavoritesService } from '../../core/services/favorites.service';
 import { ArchitecturePattern } from '../../core/models/architecture-pattern.model';
 import { CodeViewerComponent } from '../../shared/components/code-viewer/code-viewer.component';
 import { DiagramComponent } from '../../shared/components/diagram/diagram.component';
@@ -33,17 +32,18 @@ interface Tab {
   styleUrl: './pattern-detail.component.css',
 })
 export class PatternDetailComponent implements OnInit {
-  // Inputs / Outputs for parent wiring (Task 4)
-  readonly patternIsFavorite = input<boolean>(false);
-  readonly favoriteToggle = output<string>();
-
   private readonly route = inject(ActivatedRoute);
   private readonly architectureService = inject(ArchitectureService);
+  private readonly favoritesService = inject(FavoritesService);
   private readonly destroyRef = inject(DestroyRef);
 
   readonly pattern = signal<ArchitecturePattern | undefined>(undefined);
   readonly notFound = signal(false);
   readonly activeTab = signal<TabId>('overview');
+
+  readonly patternIsFavorite = computed(() =>
+    this.favoritesService.isFavorite(this.pattern()?.id ?? '')
+  );
 
   readonly tabs: Tab[] = [
     { id: 'overview',  label: 'Overview',  icon: '⚡' },
@@ -78,9 +78,9 @@ export class PatternDetailComponent implements OnInit {
   }
 
   onFavoriteToggle(): void {
-    const p = this.pattern();
-    if (p) {
-      this.favoriteToggle.emit(p.id);
+    const id = this.pattern()?.id;
+    if (id) {
+      this.favoritesService.toggle(id);
     }
   }
 

@@ -8,6 +8,7 @@
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ArchitectureService } from '../../core/services/architecture.service';
+import { FavoritesService } from '../../core/services/favorites.service';
 import { SearchFilterService } from '../../core/services/search-filter.service';
 import { PatternCardComponent } from '../../shared/components/pattern-card/pattern-card.component';
 
@@ -23,6 +24,7 @@ type DifficultyFilter = 'All' | 'Beginner' | 'Intermediate' | 'Advanced';
 })
 export class CatalogComponent {
   private readonly architectureService = inject(ArchitectureService);
+  protected readonly favoritesService = inject(FavoritesService);
   private readonly searchFilterService = inject(SearchFilterService);
 
   readonly allPatterns = this.architectureService.patterns;
