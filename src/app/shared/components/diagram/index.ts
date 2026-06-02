@@ -1,0 +1,1 @@
+export { DiagramComponent } from './diagram.component';

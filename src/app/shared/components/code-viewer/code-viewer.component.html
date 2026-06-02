@@ -1,0 +1,38 @@
+<div class="code-viewer">
+  <!-- Header / tab bar -->
+  <div class="code-header">
+    <div class="code-tab">
+      <span class="code-tab-dot"></span>
+      <span class="code-tab-label">{{ code().label }}</span>
+    </div>
+    <div class="code-header-actions">
+      <span class="code-lang-badge">{{ code().language }}</span>
+      <button
+        class="copy-btn"
+        [class.copy-btn--copied]="copied()"
+        (click)="copyToClipboard()"
+        type="button"
+        [attr.aria-label]="copied() ? 'Copied!' : 'Copy code'"
+      >
+        @if (copied()) {
+          <span class="copy-icon">✓</span>
+          <span>Copied!</span>
+        } @else {
+          <span class="copy-icon">⧉</span>
+          <span>Copy</span>
+        }
+      </button>
+    </div>
+  </div>
+
+  <!-- Code block -->
+  <div class="code-body">
+    <div class="line-numbers" aria-hidden="true">
+      @for (line of tokenizedLines(); track $index) {
+        <span class="line-number">{{ $index + 1 }}</span>
+      }
+    </div>
+    <pre class="code-pre"><code class="code-content">@for (line of tokenizedLines(); track $index) {<span class="code-line">@for (token of line; track $index) {<span [class]="'token token--' + token.type">{{ token.value }}</span>}
+</span>}</code></pre>
+  </div>
+</div>

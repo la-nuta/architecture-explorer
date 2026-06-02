@@ -1,0 +1,40 @@
+.diagram-wrapper {
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  padding: 0.5rem;
+}
+
+.diagram-svg {
+  width: 100%;
+  display: block;
+  min-height: 140px;
+}
+
+.edge-line {
+  stroke: #7c3aed;
+  stroke-width: 1.5;
+  stroke-opacity: 0.6;
+  transition: stroke-opacity 0.2s ease;
+}
+
+.diagram-node {
+  cursor: default;
+}
+
+.node-rect {
+  transition: filter 0.2s ease;
+}
+
+.diagram-node:hover .node-rect {
+  stroke-opacity: 1;
+}
+
+.node-label {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  pointer-events: none;
+  letter-spacing: 0.01em;
+}
