@@ -65,7 +65,23 @@
           "defaultConfiguration": "development"
         },
         "test": {
-          "builder": "@angular/build:unit-test"
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "runnerConfig": "vitest.config.ts",
+            "coverage": true,
+            "coverageReporters": ["text", "lcov", "html"],
+            "coverageInclude": ["src/app/**/*.ts"],
+            "coverageExclude": [
+              "src/app/**/*.spec.ts",
+              "src/app/**/*.routes.ts",
+              "src/app/**/*.model.ts",
+              "src/app/**/index.ts",
+              "src/app/app.config.ts",
+              "src/app/app.ts",
+              "src/app/core/tokens/**",
+              "src/app/data/**"
+            ]
+          }
         }
       }
     }
