@@ -168,3 +168,32 @@
   border-color: #7c3aed;
   color: #e2e8f0;
 }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-header {
+    padding: 1.25rem 1rem;
+  }
+
+  .filters-bar {
+    padding: 0.75rem 1rem;
+    top: 3rem;
+  }
+
+  .filters-container {
+    gap: 0.625rem;
+  }
+
+  .select-filter {
+    min-width: unset;
+    flex: 1;
+  }
+
+  .patterns-area {
+    padding: 1rem;
+  }
+
+  .patterns-grid {
+    grid-template-columns: 1fr;
+  }
+}
