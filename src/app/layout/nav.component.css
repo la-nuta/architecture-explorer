@@ -1,14 +1,26 @@
 .nav-link:hover {
-  color: #e2e8f0 !important;
-  background: #21262d !important;
+  color: var(--text-primary, #e2e8f0) !important;
+  background: var(--bg-elevated, #21262d) !important;
+}
+
+.nav-link-active {
+  color: var(--blue, #3b82f6) !important;
+  background: rgba(59, 130, 246, 0.1) !important;
 }
 
 :host ::ng-deep .nav-link-active {
-  color: #3b82f6 !important;
+  color: var(--blue, #3b82f6) !important;
   background: rgba(59, 130, 246, 0.1) !important;
 }
 
 :global(.nav-link-active) {
-  color: #3b82f6 !important;
+  color: var(--blue, #3b82f6) !important;
   background: rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .nav-link {
+    transition: none !important;
+  }
 }

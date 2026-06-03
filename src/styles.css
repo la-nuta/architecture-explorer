@@ -1,3 +1,118 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+/* ── Design tokens ─────────────────────────────────────────────────────────── */
+:root {
+  /* Surfaces */
+  --bg-base:      #0d1117;
+  --bg-elevated:  #161b22;
+  --bg-sunken:    #0a0e13;
+  /* Borders */
+  --border-muted: #21262d;
+  --border-default: #30363d;
+  --border-strong: #484f58;
+  /* Text */
+  --text-primary:   #e2e8f0;
+  --text-secondary: #8b949e;
+  --text-muted:     #6b7280;
+  /* Accent */
+  --accent:       #7c3aed;
+  --accent-hover: #6d28d9;
+  --accent-light: rgba(124, 58, 237, 0.12);
+  /* Status */
+  --blue:   #3b82f6;
+  --green:  #22c55e;
+  --yellow: #eab308;
+  --red:    #ef4444;
+  /* Monospace font stack */
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Menlo', monospace;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ── Base reset ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Focus ring — keyboard navigation ──────────────────────────────────────── */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Tighter radius for pill-shaped buttons */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Skip-to-content link ────────────────────────────────────────────────────*/
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0.5rem;
+  background: var(--accent);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  z-index: 9999;
+  text-decoration: none;
+}
+
+.skip-link:focus-visible {
+  left: 0.5rem;
+}
+
+/* ── Scrollbar (Chrome / Edge) ───────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb {
+  background: var(--border-default);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
+
+/* ── Selection colour ────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(124, 58, 237, 0.35);
+  color: var(--text-primary);
+}
+
+/* ── Smooth page transitions (router-outlet children) ─────────────────────── */
+router-outlet + * {
+  animation: page-enter 0.18s ease;
+}
+
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

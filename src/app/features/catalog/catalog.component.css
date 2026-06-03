@@ -169,6 +169,14 @@
   color: #e2e8f0;
 }
 
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .search-input,
+  .clear-btn {
+    transition: none;
+  }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .page-header {
