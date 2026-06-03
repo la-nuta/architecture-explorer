@@ -1,0 +1,115 @@
+<div class="quiz-root">
+
+  <div class="page-header">
+    <div class="container">
+      <h1 class="page-title">Architecture Quiz</h1>
+      <p class="page-subtitle">Test your knowledge of software architecture patterns</p>
+    </div>
+  </div>
+
+  <div class="content-area">
+    <div class="container">
+
+      @if (phase() === 'complete') {
+
+        <!-- Score Screen -->
+        <div class="score-screen">
+          <div class="score-circle">
+            <span class="score-number">{{ score() }}</span>
+            <span class="score-divider">/</span>
+            <span class="score-total">{{ questions.length }}</span>
+          </div>
+          <h2 class="score-label">{{ scoreLabel() }}</h2>
+          <p class="score-message">
+            You answered {{ score() }} out of {{ questions.length }} questions correctly.
+          </p>
+
+          <!-- Per-question review -->
+          <div class="review-list">
+            @for (q of questions; track q.id) {
+              <div
+                class="review-item"
+                [class.review-item--correct]="answers().get(q.id) === q.correctAnswer"
+                [class.review-item--wrong]="answers().get(q.id) !== q.correctAnswer"
+              >
+                <span class="review-icon">
+                  {{ answers().get(q.id) === q.correctAnswer ? '✓' : '✗' }}
+                </span>
+                <span class="review-question">{{ q.question }}</span>
+              </div>
+            }
+          </div>
+
+          <button class="restart-btn" (click)="restart()" type="button">
+            Try Again
+          </button>
+        </div>
+
+      } @else {
+
+        <!-- Progress Bar -->
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" [style.width.%]="progressPercent()"></div>
+        </div>
+        <p class="progress-text">
+          Question {{ currentIndex() + 1 }} of {{ questions.length }}
+        </p>
+
+        <!-- Question Card -->
+        <div class="question-card">
+          <h2 class="question-text">{{ currentQuestion().question }}</h2>
+
+          <div class="options">
+            @for (option of currentQuestion().options; track option) {
+              <button
+                class="option-btn"
+                type="button"
+                [class.option-btn--selected]="selectedAnswer() === option && phase() === 'answering'"
+                [class.option-btn--correct]="phase() === 'reviewing' && option === currentQuestion().correctAnswer"
+                [class.option-btn--wrong]="phase() === 'reviewing' && selectedAnswer() === option && option !== currentQuestion().correctAnswer"
+                [disabled]="phase() === 'reviewing'"
+                (click)="selectAnswer(option)"
+              >
+                {{ option }}
+              </button>
+            }
+          </div>
+
+          @if (phase() === 'reviewing') {
+            <div
+              class="explanation"
+              [class.explanation--correct]="selectedAnswer() === currentQuestion().correctAnswer"
+              [class.explanation--wrong]="selectedAnswer() !== currentQuestion().correctAnswer"
+            >
+              <strong class="explanation-verdict">
+                {{ selectedAnswer() === currentQuestion().correctAnswer ? '✓ Correct!' : '✗ Incorrect' }}
+              </strong>
+              <p class="explanation-text">{{ currentQuestion().explanation }}</p>
+            </div>
+          }
+        </div>
+
+        <!-- Action Buttons -->
+        @if (phase() === 'answering') {
+          <button
+            class="action-btn"
+            type="button"
+            [disabled]="!selectedAnswer()"
+            (click)="submitAnswer()"
+          >
+            Submit Answer
+          </button>
+        }
+
+        @if (phase() === 'reviewing') {
+          <button class="action-btn" type="button" (click)="next()">
+            {{ isLastQuestion() ? 'See Results →' : 'Next Question →' }}
+          </button>
+        }
+
+      }
+
+    </div>
+  </div>
+
+</div>
