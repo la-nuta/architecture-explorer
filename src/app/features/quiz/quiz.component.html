@@ -59,8 +59,8 @@
         <div class="question-card">
           <h2 class="question-text">{{ currentQuestion().question }}</h2>
 
-          <div class="options">
-            @for (option of currentQuestion().options; track option) {
+          <div class="options" role="radiogroup" [attr.aria-label]="'Answer options for: ' + currentQuestion().question">
+            @for (option of currentQuestion().options; track option; let i = $index) {
               <button
                 class="option-btn"
                 type="button"
@@ -68,8 +68,11 @@
                 [class.option-btn--correct]="phase() === 'reviewing' && option === currentQuestion().correctAnswer"
                 [class.option-btn--wrong]="phase() === 'reviewing' && selectedAnswer() === option && option !== currentQuestion().correctAnswer"
                 [disabled]="phase() === 'reviewing'"
+                [attr.aria-pressed]="selectedAnswer() === option"
+                [attr.aria-label]="'Option ' + (i + 1) + ': ' + option"
                 (click)="selectAnswer(option)"
               >
+                <span class="option-key" aria-hidden="true">{{ i + 1 }}</span>
                 {{ option }}
               </button>
             }

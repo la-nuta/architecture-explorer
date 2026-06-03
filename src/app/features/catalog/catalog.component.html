@@ -16,11 +16,13 @@
       <div class="search-wrapper">
         <span class="search-icon">⌕</span>
         <input
+          #searchInput
           type="text"
-          placeholder="Search patterns..."
+          placeholder="Search patterns... (press / to focus)"
           [value]="searchQuery()"
           (input)="onSearchInput($event)"
           class="search-input"
+          aria-label="Search architecture patterns"
         />
       </div>
 

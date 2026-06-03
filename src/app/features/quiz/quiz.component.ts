@@ -15,6 +15,7 @@ type QuizPhase = 'answering' | 'reviewing' | 'complete';
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './quiz.component.html',
   styleUrl: './quiz.component.css',
+  host: { '(keydown)': 'onKeydown($event)' },
 })
 export class QuizComponent {
   readonly questions: QuizQuestion[] = QUIZ_QUESTIONS;
@@ -80,5 +81,30 @@ export class QuizComponent {
     this.selectedAnswer.set(null);
     this.phase.set('answering');
     this.answers.set(new Map());
+  }
+
+  onKeydown(event: KeyboardEvent): void {
+    const phase = this.phase();
+    if (phase === 'complete') return;
+
+    const digitMatch = event.key.match(/^[1-4]$/);
+    if (digitMatch && phase === 'answering') {
+      const idx = parseInt(event.key, 10) - 1;
+      const options = this.currentQuestion().options;
+      if (idx < options.length) {
+        event.preventDefault();
+        this.selectAnswer(options[idx]);
+      }
+      return;
+    }
+
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (phase === 'answering' && this.selectedAnswer()) {
+        this.submitAnswer();
+      } else if (phase === 'reviewing') {
+        this.next();
+      }
+    }
   }
 }
