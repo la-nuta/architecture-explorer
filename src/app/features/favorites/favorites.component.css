@@ -86,3 +86,16 @@
 .browse-btn:hover {
   background: #6d28d9;
 }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page-header,
+  .content-area {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .patterns-grid {
+    grid-template-columns: 1fr;
+  }
+}
