@@ -1,0 +1,183 @@
+<div class="compare-root">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="container">
+      <h1 class="page-title">Compare Patterns</h1>
+      <p class="page-subtitle">Select two architecture patterns to compare side by side</p>
+    </div>
+  </div>
+
+  <!-- Selector Bar -->
+  <div class="selector-bar">
+    <div class="container">
+      <div class="selectors">
+
+        <div class="selector-group">
+          <label class="selector-label">Pattern A</label>
+          <select
+            class="selector-select"
+            [ngModel]="leftId()"
+            (ngModelChange)="setLeft($event)"
+          >
+            <option value="">— choose a pattern —</option>
+            @for (p of allPatterns(); track p.id) {
+              <option [value]="p.id">{{ p.title }}</option>
+            }
+          </select>
+        </div>
+
+        <button class="swap-btn" (click)="swap()" type="button" title="Swap patterns">⇄</button>
+
+        <div class="selector-group">
+          <label class="selector-label">Pattern B</label>
+          <select
+            class="selector-select"
+            [ngModel]="rightId()"
+            (ngModelChange)="setRight($event)"
+          >
+            <option value="">— choose a pattern —</option>
+            @for (p of allPatterns(); track p.id) {
+              <option [value]="p.id">{{ p.title }}</option>
+            }
+          </select>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content-area">
+    <div class="container">
+
+      @if (!canCompare()) {
+        <app-empty-state
+          title="Pick two patterns to compare"
+          message="Use the dropdowns above to select the architecture patterns you want to evaluate side by side."
+          icon="⚖"
+        />
+      } @else {
+
+        <!-- Pattern Headers -->
+        <div class="compare-grid compare-grid--header">
+          <div class="compare-col compare-col--label"></div>
+          <div class="compare-col compare-col--pattern">
+            <h2 class="pattern-name">{{ leftPattern()!.title }}</h2>
+            <app-badge [text]="leftPattern()!.difficulty" />
+          </div>
+          <div class="compare-col compare-col--pattern">
+            <h2 class="pattern-name">{{ rightPattern()!.title }}</h2>
+            <app-badge [text]="rightPattern()!.difficulty" />
+          </div>
+        </div>
+
+        <!-- Metrics Table -->
+        <div class="metrics-section">
+          <h3 class="section-heading">Metrics</h3>
+          <div class="metrics-table">
+            @for (row of comparisonRows(); track row.label) {
+              <div class="metric-row">
+                <div class="metric-label">{{ row.label }}</div>
+                <div class="metric-cell">
+                  <app-rating-bar [value]="row.left" />
+                  <span class="metric-value-text">{{ row.left }}</span>
+                </div>
+                <div class="metric-cell">
+                  <app-rating-bar [value]="row.right" />
+                  <span class="metric-value-text">{{ row.right }}</span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Use Cases -->
+        <div class="compare-grid">
+          <div class="compare-col compare-col--label">
+            <span class="row-heading">Use Cases</span>
+          </div>
+          <div class="compare-col">
+            <ul class="feature-list feature-list--positive">
+              @for (uc of leftPattern()!.useCases; track uc) {
+                <li>{{ uc }}</li>
+              }
+            </ul>
+          </div>
+          <div class="compare-col">
+            <ul class="feature-list feature-list--positive">
+              @for (uc of rightPattern()!.useCases; track uc) {
+                <li>{{ uc }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+
+        <!-- Pros -->
+        <div class="compare-grid">
+          <div class="compare-col compare-col--label">
+            <span class="row-heading">Pros</span>
+          </div>
+          <div class="compare-col">
+            <ul class="feature-list feature-list--positive">
+              @for (pro of leftPattern()!.pros; track pro) {
+                <li>{{ pro }}</li>
+              }
+            </ul>
+          </div>
+          <div class="compare-col">
+            <ul class="feature-list feature-list--positive">
+              @for (pro of rightPattern()!.pros; track pro) {
+                <li>{{ pro }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+
+        <!-- Cons -->
+        <div class="compare-grid">
+          <div class="compare-col compare-col--label">
+            <span class="row-heading">Cons</span>
+          </div>
+          <div class="compare-col">
+            <ul class="feature-list feature-list--negative">
+              @for (con of leftPattern()!.cons; track con) {
+                <li>{{ con }}</li>
+              }
+            </ul>
+          </div>
+          <div class="compare-col">
+            <ul class="feature-list feature-list--negative">
+              @for (con of rightPattern()!.cons; track con) {
+                <li>{{ con }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+
+        <!-- Avoid When -->
+        <div class="compare-grid">
+          <div class="compare-col compare-col--label">
+            <span class="row-heading">Avoid When</span>
+          </div>
+          <div class="compare-col">
+            <ul class="feature-list feature-list--warning">
+              @for (a of leftPattern()!.avoidWhen; track a) {
+                <li>{{ a }}</li>
+              }
+            </ul>
+          </div>
+          <div class="compare-col">
+            <ul class="feature-list feature-list--warning">
+              @for (a of rightPattern()!.avoidWhen; track a) {
+                <li>{{ a }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+
+      }
+    </div>
+  </div>
+
+</div>
