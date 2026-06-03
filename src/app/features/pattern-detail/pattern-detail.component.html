@@ -1,0 +1,179 @@
+<!-- Not found state -->
+@if (notFound()) {
+  <div class="not-found">
+    <div class="not-found__icon">◈</div>
+    <h2 class="not-found__title">Pattern not found</h2>
+    <p class="not-found__desc">The architecture pattern you're looking for doesn't exist or has been removed.</p>
+    <a routerLink="/architectures" class="back-link">← Back to catalog</a>
+  </div>
+}
+
+<!-- Pattern detail -->
+@if (pattern(); as p) {
+  <div class="detail">
+
+    <!-- ── Back link ── -->
+    <a routerLink="/architectures" class="back-link">← Back to catalog</a>
+
+    <!-- ── Header ── -->
+    <header class="detail__header">
+      <div class="detail__header-main">
+        <div class="detail__title-row">
+          <h1 class="detail__title">{{ p.title }}</h1>
+          <button
+            class="fav-btn"
+            [class.fav-btn--active]="patternIsFavorite()"
+            (click)="onFavoriteToggle()"
+            [attr.aria-label]="patternIsFavorite() ? 'Remove from favorites' : 'Add to favorites'"
+            type="button"
+          >
+            @if (patternIsFavorite()) {
+              <span class="fav-icon fav-icon--filled">★</span>
+            } @else {
+              <span class="fav-icon fav-icon--empty">☆</span>
+            }
+          </button>
+        </div>
+
+        <p class="detail__short-desc">{{ p.shortDescription }}</p>
+
+        <div class="detail__meta">
+          <span [class]="difficultyClass(p.difficulty)">{{ p.difficulty }}</span>
+          <div class="detail__tags">
+            @for (tag of p.tags; track tag) {
+              <span class="tag">{{ tag }}</span>
+            }
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── Tab bar ── -->
+    <nav class="tab-bar" role="tablist">
+      @for (tab of tabs; track tab.id) {
+        <button
+          class="tab-btn"
+          [class.tab-btn--active]="activeTab() === tab.id"
+          (click)="setTab(tab.id)"
+          role="tab"
+          [attr.aria-selected]="activeTab() === tab.id"
+          type="button"
+        >
+          <span class="tab-btn__icon">{{ tab.icon }}</span>
+          <span class="tab-btn__label">{{ tab.label }}</span>
+        </button>
+      }
+    </nav>
+
+    <!-- ── Tab content ── -->
+    <div class="tab-content">
+
+      <!-- Overview Tab -->
+      @if (activeTab() === 'overview') {
+        <div class="tab-pane fade-in" role="tabpanel">
+
+          <!-- Overview text -->
+          <section class="section">
+            <h2 class="section__title">Overview</h2>
+            <p class="section__body">{{ p.overview }}</p>
+          </section>
+
+          <div class="grid-2">
+            <!-- Pros -->
+            <section class="section section--card">
+              <h3 class="section__title section__title--sm section__title--green">✓ Pros</h3>
+              <ul class="bullet-list bullet-list--green">
+                @for (pro of p.pros; track pro) {
+                  <li>{{ pro }}</li>
+                }
+              </ul>
+            </section>
+
+            <!-- Cons -->
+            <section class="section section--card">
+              <h3 class="section__title section__title--sm section__title--red">✗ Cons</h3>
+              <ul class="bullet-list bullet-list--red">
+                @for (con of p.cons; track con) {
+                  <li>{{ con }}</li>
+                }
+              </ul>
+            </section>
+          </div>
+
+          <div class="grid-2">
+            <!-- Use Cases -->
+            <section class="section section--card">
+              <h3 class="section__title section__title--sm section__title--blue">◈ Use Cases</h3>
+              <ul class="bullet-list bullet-list--blue">
+                @for (uc of p.useCases; track uc) {
+                  <li>{{ uc }}</li>
+                }
+              </ul>
+            </section>
+
+            <!-- Avoid When -->
+            <section class="section section--card">
+              <h3 class="section__title section__title--sm section__title--amber">⚠ Avoid When</h3>
+              <ul class="bullet-list bullet-list--amber">
+                @for (avoid of p.avoidWhen; track avoid) {
+                  <li>{{ avoid }}</li>
+                }
+              </ul>
+            </section>
+          </div>
+
+          <!-- Common Mistakes -->
+          <section class="section section--card">
+            <h3 class="section__title section__title--sm section__title--purple">⚡ Common Mistakes</h3>
+            <ul class="bullet-list bullet-list--purple">
+              @for (mistake of p.commonMistakes; track mistake) {
+                <li>{{ mistake }}</li>
+              }
+            </ul>
+          </section>
+
+        </div>
+      }
+
+      <!-- Diagram Tab -->
+      @if (activeTab() === 'diagram') {
+        <div class="tab-pane fade-in" role="tabpanel">
+          @defer (on immediate) {
+            <app-diagram [nodes]="p.diagramNodes" />
+          } @loading {
+            <div class="loading-placeholder">
+              <div class="loading-spinner"></div>
+              <span>Loading diagram…</span>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- Code Tab -->
+      @if (activeTab() === 'code') {
+        <div class="tab-pane fade-in" role="tabpanel">
+          <app-code-viewer [code]="p.codeExample" />
+        </div>
+      }
+
+      <!-- Interview Tab -->
+      @if (activeTab() === 'interview') {
+        <div class="tab-pane fade-in" role="tabpanel">
+          <section class="section">
+            <h2 class="section__title">
+              <span class="section__title-icon">💬</span>
+              Interview Answer
+            </h2>
+            <p class="interview-hint">A concise, structured answer you can adapt for technical interviews.</p>
+            <div class="interview-answer">
+              @for (line of interviewLines(); track $index) {
+                <p class="interview-answer__para">{{ line }}</p>
+              }
+            </div>
+          </section>
+        </div>
+      }
+
+    </div>
+  </div>
+}

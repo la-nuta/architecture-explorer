@@ -43,9 +43,11 @@ export const ARCHITECTURE_PATTERNS: ArchitecturePattern[] = [
     interviewAnswer:
       'A monolith packages all layers in one deployable unit — great for small teams because there is no distributed-systems overhead. The real risk is poor internal modularity: if every module imports every other module directly, you end up with a big ball of mud that is impossible to refactor. The fix is enforcing clear module boundaries inside the monolith even when you have no plans to split it. I always recommend starting with a well-structured monolith and extracting services only when there is a concrete scaling or team-independence need.',
     diagramNodes: [
-      { id: 'client', label: 'Client', type: 'actor', connections: ['monolith'] },
-      { id: 'monolith', label: 'Monolith\n(UI + Logic + DB)', type: 'boundary', connections: ['db'] },
-      { id: 'db', label: 'Database', type: 'layer', connections: [] }
+      { id: 'client', label: 'Client\n(Browser / Mobile)', type: 'actor', connections: ['presentation'] },
+      { id: 'presentation', label: 'Presentation Layer\n(Controllers / Views)', type: 'layer', connections: ['business'] },
+      { id: 'business', label: 'Business Logic\n(Services / Domain)', type: 'layer', connections: ['data'] },
+      { id: 'data', label: 'Data Access Layer\n(Repositories)', type: 'layer', connections: ['db'] },
+      { id: 'db', label: 'Database\n(Single Instance)', type: 'layer', connections: [] }
     ],
     codeExample: {
       language: 'typescript',

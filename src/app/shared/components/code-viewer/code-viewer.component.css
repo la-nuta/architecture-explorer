@@ -1,0 +1,196 @@
+.code-viewer {
+  background: #0d1117;
+  border: 1px solid #21262d;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+}
+
+/* ── Header ── */
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background: #161b22;
+  border-bottom: 1px solid #21262d;
+  gap: 0.75rem;
+  min-height: 2.5rem;
+}
+
+.code-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.code-tab-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #7c3aed;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(124, 58, 237, 0.6);
+}
+
+.code-tab-label {
+  font-size: 0.75rem;
+  color: #8b949e;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: 'Inter', -apple-system, sans-serif;
+  letter-spacing: 0.01em;
+}
+
+.code-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.code-lang-badge {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  padding: 0.125rem 0.4rem;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: transparent;
+  border: 1px solid #30363d;
+  color: #8b949e;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.625rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  font-family: 'Inter', -apple-system, sans-serif;
+  white-space: nowrap;
+}
+
+.copy-btn:hover {
+  color: #e2e8f0;
+  border-color: #7c3aed;
+  background: rgba(124, 58, 237, 0.1);
+}
+
+.copy-btn--copied {
+  color: #22c55e;
+  border-color: rgba(34, 197, 94, 0.4);
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.copy-btn--copied:hover {
+  color: #22c55e;
+  border-color: rgba(34, 197, 94, 0.6);
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.copy-icon {
+  font-size: 0.8125rem;
+  line-height: 1;
+}
+
+/* ── Code body ── */
+.code-body {
+  display: flex;
+  overflow-x: auto;
+}
+
+.line-numbers {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+  min-width: 2.5rem;
+  text-align: right;
+  border-right: 1px solid #21262d;
+  background: #0d1117;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.line-number {
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: #3d444d;
+  padding: 0 0.625rem 0 0.5rem;
+  display: block;
+}
+
+.code-pre {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  overflow: visible;
+  background: transparent;
+  flex: 1;
+  min-width: 0;
+}
+
+.code-content {
+  display: block;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+  white-space: pre;
+  tab-size: 2;
+}
+
+.code-line {
+  display: block;
+  min-height: 1.3em;
+}
+
+/* ── Token colours — VS Code Dark+ inspired ── */
+.token {
+  display: inline;
+}
+
+.token--keyword {
+  color: #569cd6;  /* blue — const, let, class, import */
+}
+
+.token--type {
+  color: #4ec9b0;  /* teal — string, number, Promise */
+}
+
+.token--string {
+  color: #ce9178;  /* orange-brown — string literals */
+}
+
+.token--comment {
+  color: #6a9955;  /* green — comments */
+  font-style: italic;
+}
+
+.token--number {
+  color: #b5cea8;  /* light green — numeric literals */
+}
+
+.token--function {
+  color: #dcdcaa;  /* yellow — function calls */
+}
+
+.token--operator {
+  color: #d4d4d4;  /* near-white — operators */
+}
+
+.token--punctuation {
+  color: #808080;  /* gray — braces, parens, semicolons */
+}
+
+.token--plain {
+  color: #d4d4d4;  /* default text */
+}

@@ -1,0 +1,42 @@
+<div class="favorites-root">
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="container">
+      <h1 class="page-title">Saved Patterns</h1>
+      <p class="page-subtitle">
+        @if (favoritePatterns().length > 0) {
+          {{ favoritePatterns().length }} pattern{{ favoritePatterns().length === 1 ? '' : 's' }} saved
+        } @else {
+          Your personal collection of architecture patterns
+        }
+      </p>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content-area">
+    @if (favoritePatterns().length > 0) {
+      <div class="patterns-grid">
+        @for (pattern of favoritePatterns(); track pattern.id) {
+          <app-pattern-card
+            [pattern]="pattern"
+            [isFavorite]="true"
+            (favoriteToggle)="onFavoriteToggle($event)"
+          />
+        }
+      </div>
+    } @else {
+      <!-- Empty State -->
+      <div class="empty-state">
+        <div class="empty-icon">☆</div>
+        <h3 class="empty-title">No saved patterns yet</h3>
+        <p class="empty-message">
+          Browse the catalog and save your favorites!
+        </p>
+        <a routerLink="/architectures" class="browse-btn">
+          Browse Architecture Catalog
+        </a>
+      </div>
+    }
+  </div>
+</div>

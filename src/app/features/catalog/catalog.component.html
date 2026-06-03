@@ -18,8 +18,8 @@
         <input
           type="text"
           placeholder="Search patterns..."
-          [ngModel]="searchQuery()"
-          (ngModelChange)="searchQuery.set($event)"
+          [value]="searchQuery()"
+          (input)="onSearchInput($event)"
           class="search-input"
         />
       </div>
@@ -35,8 +35,19 @@
         }
       </select>
 
+      <!-- Tag Filter -->
+      <select
+        [ngModel]="tagFilter()"
+        (ngModelChange)="tagFilter.set($event)"
+        class="select-filter"
+      >
+        @for (tag of availableTags(); track tag) {
+          <option [value]="tag">{{ tag }}</option>
+        }
+      </select>
+
       <!-- Result count -->
-      @if (searchQuery() || difficultyFilter() !== 'All') {
+      @if (searchQuery() || difficultyFilter() !== 'All' || tagFilter() !== 'All') {
         @let count = filteredPatterns().length;
         <span class="result-count">
           {{ count }} result{{ count === 1 ? '' : 's' }}
@@ -50,7 +61,11 @@
     @if (filteredPatterns().length > 0) {
       <div class="patterns-grid">
         @for (pattern of filteredPatterns(); track pattern.id) {
-          <app-pattern-card [pattern]="pattern" [isFavorite]="false" />
+          <app-pattern-card
+              [pattern]="pattern"
+              [isFavorite]="favoritesService.isFavorite(pattern.id)"
+              (favoriteToggle)="favoritesService.toggle($event)"
+            />
         }
       </div>
     } @else {
@@ -59,7 +74,7 @@
         <div class="empty-icon">⊘</div>
         <h3 class="empty-title">No patterns match your search</h3>
         <p class="empty-message">
-          Try adjusting your search terms or difficulty filter.
+          Try adjusting your search terms or filters.
         </p>
         <button
           type="button"
