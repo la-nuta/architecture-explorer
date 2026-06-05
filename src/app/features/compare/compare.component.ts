@@ -44,7 +44,17 @@ export class CompareComponent {
     this.allPatterns().find(p => p.id === this.rightId()) ?? null
   );
 
-  readonly canCompare = computed(() => !!this.leftPattern() && !!this.rightPattern());
+  readonly patternsForLeft = computed(() =>
+    this.allPatterns().filter(p => p.id !== this.rightId())
+  );
+
+  readonly patternsForRight = computed(() =>
+    this.allPatterns().filter(p => p.id !== this.leftId())
+  );
+
+  readonly canCompare = computed(() =>
+    !!this.leftPattern() && !!this.rightPattern() && this.leftId() !== this.rightId()
+  );
 
   readonly comparisonRows = computed<ComparisonRow[]>(() => {
     const left = this.leftPattern();

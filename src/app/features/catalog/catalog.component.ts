@@ -1,9 +1,12 @@
 ﻿import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
+  ElementRef,
   inject,
   signal,
+  ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
@@ -22,7 +25,9 @@ type DifficultyFilter = 'All' | 'Beginner' | 'Intermediate' | 'Advanced';
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.css',
 })
-export class CatalogComponent {
+export class CatalogComponent implements AfterViewInit {
+  @ViewChild('searchInput') searchInputRef?: ElementRef<HTMLInputElement>;
+
   private readonly architectureService = inject(ArchitectureService);
   protected readonly favoritesService = inject(FavoritesService);
   private readonly searchFilterService = inject(SearchFilterService);
@@ -78,10 +83,15 @@ export class CatalogComponent {
     this.searchFilterService.setQuery((event.target as HTMLInputElement).value);
   }
 
+  ngAfterViewInit(): void {
+    this.searchInputRef?.nativeElement.focus();
+  }
+
   clearFilters(): void {
-    this.searchQuery.set('');          // immediate visual reset
+    this.searchQuery.set('');
     this.searchFilterService.setQuery('');
     this.difficultyFilter.set('All');
     this.tagFilter.set('All');
+    this.searchInputRef?.nativeElement.focus();
   }
 }
